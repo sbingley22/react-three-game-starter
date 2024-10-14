@@ -1,11 +1,18 @@
-import { useState } from 'react'
+import { useGameStore } from './useGameStore.js'
+import MainMenu from './components/MainMenu.jsx'
+import Game from './components/Game.jsx'
+import ControlsWrapper from './ControlsWrapper.jsx'
 
 function App() {
+  const { mode } = useGameStore()
 
   return (
-    <h1 className="text-3xl font-bold underline">
-      Hello world!
-    </h1>
+    <ControlsWrapper>
+      <>
+        {mode === 0 && <Game />}
+        {mode === 5 && <MainMenu />}
+      </>
+    </ControlsWrapper> 
   )
 }
 
