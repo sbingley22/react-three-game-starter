@@ -8,7 +8,7 @@ const Arena = () => {
   return (
     <>
       <Stars />
-      <Environment preset='dawn' />
+      <Environment preset='warehouse' />
 
       <Player />
     </>

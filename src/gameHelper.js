@@ -9,11 +9,11 @@ export const isUnskippableAnimation = (anim) => {
   if (!anim || !anim.current) return
 
   const a = anim.current
-  if (a === "cqc dmg") return true
-  if (a === "cqc block dmg") return true
-  if (a === "cqc jab") return true
-  if (a === "cqc straight") return true
-  if (a === "cqc roundhouse") return true
+  if (a === "Take Damage") return true
+  if (a === "Die") return true
+  if (a === "Fight Jab") return true
+  if (a === "Fight Straight") return true
+  if (a === "Fight Roundhouse") return true
 
   return false
 }
@@ -66,7 +66,7 @@ export const updateHeldInputs = (heldInputs, inputs) => {
 
 export const playerMovement = (group, inputs, anim, transition, options, baseSpeed, speedMultiplier, delta ) => {
   if (!group.current) return
-  transition.current = "cqc stance"
+  transition.current = "Idle"
 
   let dx = 0
   let dy = 0
@@ -101,16 +101,16 @@ export const playerMovement = (group, inputs, anim, transition, options, baseSpe
     // moving
     rotateToVec(group.current, dx, dy)
 
-    transition.current = "cqc walk"
+    transition.current = "Walking"
     if (!isUnskippableAnimation(anim)) {
-      anim.current = "cqc walk"
+      anim.current = "Walking"
     }
   }
   else {
     // stationary
-    transition.current = "cqc stance"
+    transition.current = "Idle"
     if (!isUnskippableAnimation(anim)) {
-      anim.current = "cqc stance"
+      anim.current = "Idle"
     }
   }
 
@@ -129,7 +129,7 @@ export const playerAttack = (group, anim, inputs) => {
 
   if (!isUnskippableAnimation(anim)) {
     // start attack 
-    anim.current = "cqc jab"
+    anim.current = "Fight Roundhouse"
   }
 }
 
@@ -149,8 +149,8 @@ export const playerFlags = (group, anim, forceAnim) => {
       let dmg = flag.damage
 
       group.current.health -= dmg
-      if (anim.current === "cqc dmg") forceAnim.current = true
-      anim.current = "cqc dmg"
+      if (anim.current === "Take Damage") forceAnim.current = true
+      anim.current = "Take Damage"
     }
 
     group.current.flagDmg = null

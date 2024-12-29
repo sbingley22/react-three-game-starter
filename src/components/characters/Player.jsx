@@ -1,3 +1,4 @@
+/* eslint-disable react/no-unknown-property */
 import { useRef } from "react"
 import { useFrame, useThree } from "@react-three/fiber"
 import CharacterModel from "./CharacterModel.jsx"
@@ -6,10 +7,10 @@ import { playerMovement, updateCamera, updateHeldInputs, playerAttack, playerFla
 import { useKeyboardControls } from "@react-three/drei"
 
 const Player = () => {
-  const { setMode, options, getVolume, getMute, getGamepad, player, setPlayer, setHudInfoParameter } = useGameStore()
+  const { setMode, options, getGamepad, player, setPlayer, setHudInfoParameter } = useGameStore()
   const group = useRef()
-  const anim = useRef("cqc stance")
-  const transition = useRef("cqc stance")
+  const anim = useRef("Idle")
+  const transition = useRef("Idle")
   const forceAnim = useRef(false)
   const speedMultiplier = useRef(1.0)
   const [, getKeys] = useKeyboardControls()

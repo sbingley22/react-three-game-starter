@@ -1,17 +1,18 @@
+/* eslint-disable react/prop-types */
 import { useRef, useEffect } from "react"
-import glb from "../../assets/SurvivorF.glb?url"
+import glb from "../../assets/basic.glb?url"
 import { useSkinnedMeshClone } from "./SkinnedMeshClone.js"
 import { useAnimations } from "@react-three/drei"
 import { useFrame } from "@react-three/fiber"
 
-const CharacterModel = ({ anim, transition="cqc stance", speedMultiplier={current:1}, forceAnim={current:false} }) => {
+const CharacterModel = ({ anim, transition="Idle", speedMultiplier={current:1}, forceAnim={current:false} }) => {
   const { scene, nodes, animations } = useSkinnedMeshClone(glb)
   const { mixer, actions } = useAnimations(animations, scene)
   const lastAnim = useRef(anim.current)
   
   // Initial Setup
   useEffect(()=>{
-    console.log(nodes, actions)
+    // console.log(nodes, actions)
 
     Object.keys(nodes).forEach(nodeName => {
       const node = nodes[nodeName]
@@ -31,7 +32,7 @@ const CharacterModel = ({ anim, transition="cqc stance", speedMultiplier={curren
   useEffect(()=>{
     if (!mixer) return
 
-    const oneShotAnims = ["cqc jab", "cqc straight", "cqc roundhouse", "cqc dmg", "cqc block dmg"]
+    const oneShotAnims = ["Pistol Fire", "Take Damage", "Fight Jab", "Fight Straight", "Fight Roundhouse"]
     oneShotAnims.forEach(osa => {
       if (!actions[osa]) {
         console.log("No such action: ", osa)
@@ -44,14 +45,15 @@ const CharacterModel = ({ anim, transition="cqc stance", speedMultiplier={curren
     mixer.addEventListener("finished", (e) => {
       const action = e.action.getClip().name
       // console.log(action)
-      if (anim.current === "cqc ko") return
+      if (anim.current === "Die") return
 
-      if (action === "cqc dmg") {
-        if (transition.current) anim.current = transition.current
+      if (action === "Pistol Fire") {
+        anim.current = "Pistol Aim"
         return
       }
 
-      anim.current = "cqc stance"
+      if (transition.current) anim.current = transition.current
+      anim.current = "Idle"
     })
 
     return mixer.removeEventListener("finished")
@@ -61,7 +63,7 @@ const CharacterModel = ({ anim, transition="cqc stance", speedMultiplier={curren
   const getTimeScale = () => {
     let timescale = 1
 
-    if (["cqc walk", "cqc stance"].includes(anim.current)) timescale *= speedMultiplier.current
+    if (["Walking", "Jogging"].includes(anim.current)) timescale *= speedMultiplier.current
   
     return timescale
   }
